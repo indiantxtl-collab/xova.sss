@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XOVA — AI Software Development Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     CLOUD BACKGROUND LAYER
+============================================================ -->
+<div class="sky-bg">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+  <div class="cloud cloud-4"></div>
+  <div class="cloud cloud-5"></div>
+  <div class="cloud cloud-6"></div>
+  <div class="lightning-bolt bolt-1"></div>
+  <div class="lightning-bolt bolt-2"></div>
+  <div class="lightning-bolt bolt-3"></div>
+  <div class="sky-gradient-orb orb-1"></div>
+  <div class="sky-gradient-orb orb-2"></div>
+  <div class="sky-gradient-orb orb-3"></div>
+</div>
+
+<!-- ============================================================
+     GHOST ASSISTANT
+============================================================ -->
+<div id="ghost" class="ghost-container">
+  <div class="ghost-body">
+    <div class="ghost-glow"></div>
+    <svg class="ghost-svg" viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="ghostGrad" cx="50%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#1a1a2e" stop-opacity="0.95"/>
+          <stop offset="100%" stop-color="#0d0d1a" stop-opacity="0.98"/>
+        </radialGradient>
+        <filter id="ghostBlur">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      </defs>
+      <!-- Main body -->
+      <path class="ghost-shape" d="M40 8 C18 8 8 28 8 48 C8 68 8 88 14 92 C18 96 22 90 26 86 C30 82 34 86 40 86 C46 86 50 82 54 86 C58 90 62 96 66 92 C72 88 72 68 72 48 C72 28 62 8 40 8 Z"/>
+      <!-- Eyes -->
+      <ellipse class="ghost-eye left-eye" cx="28" cy="44" rx="6" ry="7"/>
+      <ellipse class="ghost-eye right-eye" cx="52" cy="44" rx="6" ry="7"/>
+      <!-- Pupils -->
+      <circle class="ghost-pupil left-pupil" cx="29" cy="45" r="3"/>
+      <circle class="ghost-pupil right-pupil" cx="53" cy="45" r="3"/>
+      <!-- Mouth (happy) -->
+      <path class="ghost-mouth" id="ghostMouth" d="M30 60 Q40 68 50 60" stroke="#6ee7f7" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="ghost-particles">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+  <div class="ghost-speech-bubble" id="ghostSpeech">
+    <span id="ghostSpeechText">Build anything with AI ✨</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVBAR
+============================================================ -->
+<nav class="navbar glass-panel" id="navbar">
+  <div class="nav-brand">
+    <div class="brand-icon">
+      <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+        <circle cx="16" cy="16" r="14" stroke="#6ee7f7" stroke-width="2"/>
+        <path d="M10 16 L14 12 L18 20 L22 16" stroke="#a78bfa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="16" r="3" fill="#6ee7f7" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="brand-name">XOVA</span>
+    <span class="brand-tag">AI Engine</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#" class="nav-link active" data-page="home">Home</a>
+    <a href="#" class="nav-link" data-page="projects">Projects</a>
+    <a href="#" class="nav-link" data-page="api-docs">API Docs</a>
+    <a href="#" class="nav-link" data-page="roadmap">Roadmap</a>
+    <a href="#" class="nav-link" data-page="community">Community</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-glass btn-sm" id="versionHistoryBtn">
+      <i class="fas fa-history"></i> History
+    </button>
+    <button class="btn-primary btn-sm" id="newProjectBtn">
+      <i class="fas fa-plus"></i> New Build
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================================
+     PAGES CONTAINER
+============================================================ -->
+<div class="pages-container" id="pagesContainer">
+
+  <!-- ========================
+       HOME PAGE (Landing)
+  ======================== -->
+  <div class="page active" id="homePage">
+    <div class="hero-section">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Next-Generation AI Development Engine
+      </div>
+      <h1 class="hero-title">
+        Build <span class="gradient-text">Any Application</span><br/>
+        From a Single Prompt
+      </h1>
+      <p class="hero-subtitle">
+        XOVA analyzes your idea, plans the complete architecture,<br/>
+        then streams production-ready code in real-time — like a full-stack AI engineer.
+      </p>
+
+      <!-- Model Selector -->
+      <div class="model-selector glass-panel" id="modelSelector">
+        <button class="model-btn active" data-model="super">
+          <i class="fas fa-bolt"></i>
+          <span>XOVA SUPER</span>
+          <small>Most Powerful</small>
+        </button>
+        <button class="model-btn" data-model="new">
+          <i class="fas fa-star"></i>
+          <span>NEW MODEL</span>
+          <small>Latest Release</small>
+        </button>
+        <button class="model-btn" data-model="pro">
+          <i class="fas fa-crown"></i>
+          <span>XOVA PRO</span>
+          <small>Balanced Speed</small>
+        </button>
+      </div>
+
+      <!-- Main Input -->
+      <div class="input-container glass-panel" id="inputContainer">
+        <div class="input-glow"></div>
+        <textarea 
+          id="mainInput" 
+          class="main-input" 
+          placeholder="Build anything… (e.g. 'Build me a full Instagram-like social media platform with stories, reels, DMs, explore, and monetization')"
+          rows="1"
+        ></textarea>
+        <div class="input-footer">
+          <div class="suggestion-chips" id="suggestionChips">
+            <button class="chip" data-prompt="Build a full e-commerce platform like Flipkart with product catalog, cart, payments, seller portal, and analytics">🛒 E-Commerce</button>
+            <button class="chip" data-prompt="Build a social media platform like Instagram with feeds, stories, reels, DMs, explore, and creator monetization">📸 Social Media</button>
+            <button class="chip" data-prompt="Build a music streaming platform like Spotify with playlists, artist pages, radio, offline mode, and subscriptions">🎵 Streaming App</button>
+            <button class="chip" data-prompt="Build an AI SaaS platform with user management, API keys, usage analytics, billing, and multi-model support">🤖 AI SaaS Tool</button>
+            <button class="chip" data-prompt="Build a project management tool like Linear with boards, sprints, issues, team collaboration, and integrations">📋 Project Manager</button>
+            <button class="chip" data-prompt="Build a real-time collaborative code editor with rooms, syntax highlighting, chat, and version control">💻 Code Editor</button>
+          </div>
+          <div class="input-actions">
+            <span class="char-count" id="charCount">0 / ∞</span>
+            <button class="btn-attach" id="attachBtn" title="Attach files or images">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <button class="btn-build" id="buildBtn">
+              <i class="fas fa-rocket"></i>
+              <span>Analyze & Plan</span>
+            </button>
+          </div>
+        </div>
+        <input type="file" id="fileInput" multiple accept="image/*,.pdf,.txt,.json" style="display:none"/>
+        <div class="attached-files" id="attachedFiles"></div>
+      </div>
+
+      <!-- Platform Showcase -->
+      <div class="platform-showcase">
+        <p class="showcase-label">XOVA can build platforms like:</p>
+        <div class="platform-logos">
+          <span class="plat">📸 Instagram</span>
+          <span class="plat">🛒 Flipkart</span>
+          <span class="plat">🎵 Spotify</span>
+          <span class="plat">💼 Notion</span>
+          <span class="plat">🚗 Uber</span>
+          <span class="plat">📦 Shopify</span>
+          <span class="plat">🎮 Twitch</span>
+          <span class="plat">🏦 Fintech</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fas fa-code"></i></div>
+        <div class="stat-val" data-count="50000">0</div>
+        <div class="stat-label">Lines of Code Generated</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
+        <div class="stat-val" data-count="1200">0</div>
+        <div class="stat-label">Apps Built</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fas fa-file-code"></i></div>
+        <div class="stat-val" data-count="340">0</div>
+        <div class="stat-label">Files Per Project Avg</div>
+      </div>
+      <div class="stat-card glass-panel">
+        <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+        <div class="stat-val" data-count="99">0</div>
+        <div class="stat-label">% Completion Rate</div>
+      </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-section">
+      <h2 class="section-title">Why XOVA is Different</h2>
+      <div class="features-grid">
+        <div class="feature-card glass-panel">
+          <div class="feature-icon sky-icon"><i class="fas fa-brain"></i></div>
+          <h3>Deep Architecture Planning</h3>
+          <p>XOVA analyzes your prompt against real-world platforms, generates complete folder structures, API schemas, DB models, and scaling logic before writing a single line.</p>
+        </div>
+        <div class="feature-card glass-panel">
+          <div class="feature-icon purple-icon"><i class="fas fa-stream"></i></div>
+          <h3>Real-Time Code Streaming</h3>
+          <p>Watch code appear character by character with a live cursor. Every file is generated sequentially, marked complete, and collapses before the next — no stopping, no summaries.</p>
+        </div>
+        <div class="feature-card glass-panel">
+          <div class="feature-icon green-icon"><i class="fas fa-eye"></i></div>
+          <h3>Live Instant Preview</h3>
+          <p>The right panel shows a fully functional live preview that updates in real time as code streams. Buttons work, navigation functions, APIs respond — it's real execution.</p>
+        </div>
+        <div class="feature-card glass-panel">
+          <div class="feature-icon orange-icon"><i class="fas fa-robot"></i></div>
+          <h3>Ghost AI Assistant</h3>
+          <p>Your intelligent ghost companion observes, reacts to your input, celebrates builds, and guides you through the entire development process with personality and physics.</p>
+        </div>
+        <div class="feature-card glass-panel">
+          <div class="feature-icon pink-icon"><i class="fas fa-sitemap"></i></div>
+          <h3>Full Production Code</h3>
+          <p>No toy demos. XOVA generates complete scalable applications with auth, databases, APIs, dashboards, settings, profiles, documentation pages, and 20+ screens.</p>
+        </div>
+        <div class="feature-card glass-panel">
+          <div class="feature-icon blue-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+          <h3>Save, Export & Deploy</h3>
+          <p>Every build is auto-saved with version history. Export as ZIP or push directly to GitHub. Full project versioning so you can reopen any previous build instantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       PLANNING PAGE
+  ======================== -->
+  <div class="page" id="planningPage">
+    <div class="planning-layout">
+      <!-- Left: Architecture Visualization -->
+      <div class="planning-left">
+        <div class="planning-header glass-panel">
+          <div class="planning-status">
+            <div class="status-dot analyzing"></div>
+            <span id="planningStatusText">Analyzing your prompt…</span>
+          </div>
+          <button class="btn-glass btn-sm" id="cancelPlanBtn"><i class="fas fa-times"></i> Cancel</button>
+        </div>
+
+        <div class="architecture-card glass-panel" id="architectureCard">
+          <h3 class="arch-title"><i class="fas fa-project-diagram"></i> Architecture Overview</h3>
+          <div class="arch-content" id="archContent">
+            <div class="arch-skeleton">
+              <div class="skel-line w80"></div>
+              <div class="skel-line w60"></div>
+              <div class="skel-line w90"></div>
+              <div class="skel-line w50"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="file-tree-preview glass-panel" id="fileTreePreview">
+          <h3 class="arch-title"><i class="fas fa-folder-tree"></i> Project Structure</h3>
+          <div class="file-tree" id="fileTreeContent">
+            <div class="arch-skeleton">
+              <div class="skel-line w70"></div>
+              <div class="skel-line w50"></div>
+              <div class="skel-line w80"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-stack-card glass-panel" id="techStackCard">
+          <h3 class="arch-title"><i class="fas fa-layer-group"></i> Tech Stack</h3>
+          <div class="tech-stack" id="techStackContent"></div>
+        </div>
+      </div>
+
+      <!-- Right: Chat Interface -->
+      <div class="planning-right glass-panel">
+        <div class="chat-header">
+          <div class="chat-avatar">
+            <svg viewBox="0 0 40 40" width="36" height="36">
+              <circle cx="20" cy="20" r="18" fill="#1a1a2e" stroke="#6ee7f7" stroke-width="1.5"/>
+              <ellipse cx="14" cy="19" rx="4" ry="4.5" fill="white"/>
+              <ellipse cx="26" cy="19" rx="4" ry="4.5" fill="white"/>
+              <circle cx="15" cy="20" r="2" fill="#1a1a2e"/>
+              <circle cx="27" cy="20" r="2" fill="#1a1a2e"/>
+              <path d="M14 27 Q20 32 26 27" stroke="#6ee7f7" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="chat-title">XOVA Planning Assistant</div>
+            <div class="chat-subtitle">Analyzing your requirements…</div>
+          </div>
+          <div class="chat-thinking" id="chatThinking">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <!-- Messages injected by JS -->
+        </div>
+
+        <div class="chat-input-area">
+          <div class="plan-ready-banner" id="planReadyBanner" style="display:none">
+            <i class="fas fa-check-circle"></i>
+            Plan complete! Ready to build <strong id="planAppName">your app</strong>
+          </div>
+          <div class="chat-input-row">
+            <textarea 
+              id="chatInput" 
+              class="chat-textarea glass-panel" 
+              placeholder="Modify the plan, add features, or ask questions…"
+              rows="2"
+            ></textarea>
+            <button class="btn-glass" id="sendChatBtn"><i class="fas fa-paper-plane"></i></button>
+          </div>
+          <div class="planning-cta" id="planningCta" style="display:none">
+            <button class="btn-build-now" id="startBuildBtn">
+              <i class="fas fa-rocket"></i>
+              Are you ready to build?
+              <span class="btn-shine"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       BUILD PAGE (Studio)
+  ======================== -->
+  <div class="page" id="buildPage">
+    <!-- Build Topbar -->
+    <div class="build-topbar glass-panel">
+      <div class="build-topbar-left">
+        <button class="btn-glass btn-xs" id="backToPlanBtn"><i class="fas fa-arrow-left"></i></button>
+        <div class="build-project-info">
+          <span class="build-project-name" id="buildProjectName">Untitled Project</span>
+          <div class="build-progress-pill">
+            <div class="build-progress-fill" id="buildProgressFill" style="width:0%"></div>
+            <span id="buildProgressText">0%</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-topbar-center">
+        <div class="build-status-chip" id="buildStatusChip">
+          <div class="build-pulse"></div>
+          <span id="buildStatusText">Initializing…</span>
+        </div>
+      </div>
+      <div class="build-topbar-right">
+        <button class="btn-glass btn-xs" id="togglePreviewBtn" title="Toggle Preview"><i class="fas fa-eye"></i></button>
+        <button class="btn-glass btn-xs" id="exportZipBtn" title="Export ZIP"><i class="fas fa-download"></i></button>
+        <button class="btn-glass btn-xs" id="githubPushBtn" title="Push to GitHub"><i class="fab fa-github"></i></button>
+        <button class="btn-glass btn-xs" id="saveProjectBtn" title="Save Project"><i class="fas fa-save"></i></button>
+      </div>
+    </div>
+
+    <!-- Build Main Area -->
+    <div class="build-main" id="buildMain">
+      <!-- File Sidebar -->
+      <div class="file-sidebar glass-panel" id="fileSidebar">
+        <div class="sidebar-header">
+          <span><i class="fas fa-folder-open"></i> Files</span>
+          <span class="file-count-badge" id="fileCountBadge">0</span>
+        </div>
+        <div class="file-list" id="fileList">
+          <!-- File items injected by JS -->
+        </div>
+        <div class="sidebar-footer">
+          <div class="generation-eta" id="generationEta">Preparing…</div>
+        </div>
+      </div>
+
+      <!-- Code Editor Panel -->
+      <div class="code-panel" id="codePanel">
+        <div class="code-panel-tabs" id="codePanelTabs">
+          <div class="code-tab active" id="activeCodeTab">
+            <i class="fas fa-file-code"></i>
+            <span id="activeFileName">index.js</span>
+          </div>
+        </div>
+        <div class="code-editor-area" id="codeEditorArea">
+          <div class="code-editor" id="codeEditor">
+            <div class="code-line-numbers" id="lineNumbers"></div>
+            <div class="code-content" id="codeContent">
+              <div class="code-waiting">
+                <div class="code-waiting-icon"><i class="fas fa-terminal"></i></div>
+                <p>Code will stream here…</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="error-detector glass-panel" id="errorDetector" style="display:none">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="errorText">Detected issue — auto-fixing…</span>
+          <div class="fix-progress"></div>
+        </div>
+      </div>
+
+      <!-- Live Preview Panel -->
+      <div class="preview-panel" id="previewPanel">
+        <div class="preview-header glass-panel">
+          <div class="preview-controls">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="preview-url-bar" id="previewUrlBar">
+            <i class="fas fa-lock" style="font-size:10px;color:#6ee7f7"></i>
+            <span id="previewUrl">localhost:3000</span>
+          </div>
+          <div class="preview-device-btns">
+            <button class="dev-btn active" data-device="desktop" title="Desktop"><i class="fas fa-desktop"></i></button>
+            <button class="dev-btn" data-device="tablet" title="Tablet"><i class="fas fa-tablet-alt"></i></button>
+            <button class="dev-btn" data-device="mobile" title="Mobile"><i class="fas fa-mobile-alt"></i></button>
+          </div>
+        </div>
+        <div class="preview-frame-wrap" id="previewFrameWrap">
+          <iframe 
+            id="livePreviewFrame" 
+            class="live-preview-frame"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-modals"
+            title="Live Preview"
+          ></iframe>
+          <div class="preview-overlay" id="previewOverlay">
+            <div class="preview-building">
+              <div class="preview-building-icon">
+                <i class="fas fa-code"></i>
+              </div>
+              <p>Preview will appear as code streams…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Build Complete Banner -->
+    <div class="build-complete-banner" id="buildCompleteBanner" style="display:none">
+      <div class="complete-content glass-panel">
+        <div class="complete-icon">🎉</div>
+        <h2>Build Complete!</h2>
+        <p id="buildCompleteMsg">Your application has been fully generated</p>
+        <div class="complete-actions">
+          <button class="btn-primary" id="viewFullAppBtn"><i class="fas fa-eye"></i> View Full App</button>
+          <button class="btn-glass" id="exportFinalZipBtn"><i class="fas fa-download"></i> Export ZIP</button>
+          <button class="btn-glass" id="pushGithubFinalBtn"><i class="fab fa-github"></i> Push to GitHub</button>
+          <button class="btn-glass" id="newBuildFromCompleteBtn"><i class="fas fa-plus"></i> New Build</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       PROJECTS PAGE
+  ======================== -->
+  <div class="page" id="projectsPage">
+    <div class="page-header">
+      <h1 class="page-title">Your Projects</h1>
+      <button class="btn-primary" id="newProjectFromListBtn"><i class="fas fa-plus"></i> New Build</button>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Projects injected by JS -->
+    </div>
+  </div>
+
+  <!-- ========================
+       API DOCS PAGE
+  ======================== -->
+  <div class="page" id="apiDocsPage">
+    <div class="api-docs-layout">
+      <div class="api-sidebar glass-panel">
+        <h3 class="api-sidebar-title">XOVA API v1.0</h3>
+        <div class="api-sidebar-version">
+          <span class="api-badge">OAS 3.0</span>
+          <span class="api-badge green">Live</span>
+        </div>
+        <div class="api-nav" id="apiNav">
+          <!-- API nav injected by JS -->
+        </div>
+      </div>
+      <div class="api-content" id="apiContent">
+        <!-- API content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       ROADMAP PAGE
+  ======================== -->
+  <div class="page" id="roadmapPage">
+    <div class="page-content centered">
+      <h1 class="page-title">XOVA Roadmap</h1>
+      <p class="page-subtitle">The future of AI-powered software development</p>
+      <div class="roadmap-timeline" id="roadmapTimeline">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================
+       COMMUNITY PAGE
+  ======================== -->
+  <div class="page" id="communityPage">
+    <div class="page-content centered">
+      <h1 class="page-title">Community Builds</h1>
+      <p class="page-subtitle">Discover what others have created with XOVA</p>
+      <div class="community-grid" id="communityGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+</div><!-- /pages-container -->
+
+<!-- ============================================================
+     VERSION HISTORY MODAL
+============================================================ -->
+<div class="modal-overlay" id="versionHistoryModal">
+  <div class="modal glass-panel">
+    <div class="modal-header">
+      <h3><i class="fas fa-history"></i> Version History</h3>
+      <button class="btn-glass btn-xs close-modal" data-modal="versionHistoryModal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="version-list" id="versionList">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GITHUB PUSH MODAL
+============================================================ -->
+<div class="modal-overlay" id="githubModal">
+  <div class="modal glass-panel">
+    <div class="modal-header">
+      <h3><i class="fab fa-github"></i> Push to GitHub</h3>
+      <button class="btn-glass btn-xs close-modal" data-modal="githubModal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Repository Name</label>
+        <input type="text" class="glass-input" id="repoName" placeholder="my-xova-app"/>
+      </div>
+      <div class="form-group">
+        <label>GitHub Token (PAT)</label>
+        <input type="password" class="glass-input" id="githubToken" placeholder="ghp_xxxxxxxxxx"/>
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="glass-input" id="githubUsername" placeholder="your-username"/>
+      </div>
+      <div class="form-group">
+        <label>Commit Message</label>
+        <input type="text" class="glass-input" id="commitMsg" placeholder="Initial commit — Built by XOVA"/>
+      </div>
+      <button class="btn-primary w-full" id="confirmGithubPush">
+        <i class="fab fa-github"></i> Push Repository
+      </button>
+      <div class="github-result" id="githubResult" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notifications -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ============================================================
+     XOVA ENGINE SCRIPTS (NEW ARCHITECTURE)
+============================================================ -->
+<script src="js/ghost.js"></script>
+<script src="js/projects.js"></script>
+<script src="js/apidocs.js"></script>
+
+<!-- Core Engine Files -->
+<script src="js/engine/planner.js"></script>
+<script src="js/engine/generator.js"></script>
+<script src="js/engine/streamer.js"></script>
+<script src="js/engine/preview.js"></script>
+
+<!-- Main App Controller -->
+<script src="js/main.js"></script>
+</body>
+</html>
