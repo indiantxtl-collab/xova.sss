@@ -564,7 +564,47 @@ class XOVAEnginePlanner {
     await this.addAIMessage(response);
     
     this.chatThinking.classList.add('hidden');
+    
+    // Update analysis with user feedback
+    this.updateAnalysisFromFeedback(text);
+    
     window.xovaGhost.say('Plan updated! 📝', 2000);
+  }
+
+  updateAnalysisFromFeedback(userText) {
+    // Re-analyze prompt with new requirements
+    const combinedPrompt = this.prompt + ' ' + userText;
+    this.analysis = this.analyzePromptSync(combinedPrompt);
+    
+    // Re-render UI
+    this.renderArchitecture();
+    this.renderFileTree();
+    this.renderTechStack();
+  }
+
+  analyzePromptSync(prompt) {
+    // Synchronous version for quick updates
+    const requirements = this.extractRequirements(prompt);
+    const structure = this.identifyAppStructure(prompt, requirements);
+    const techStack = this.determineTechStack(structure, requirements);
+    const pages = this.generatePages(structure, requirements);
+    const apis = this.designAPIs(structure, pages, requirements);
+    const dbSchema = this.createDatabaseSchema(structure, pages, requirements);
+
+    return {
+      prompt,
+      appName: this.generateAppName(prompt),
+      description: this.generateDescription(structure, requirements),
+      appType: structure.appType,
+      requirements,
+      structure,
+      pages,
+      apis,
+      techStack,
+      dbSchema,
+      fileCount: this.calculateFileCount(pages, apis, techStack),
+      estimatedComplexity: this.assessComplexity(requirements, structure)
+    };
   }
 
   generateResponse(userText) {

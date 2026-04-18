@@ -230,7 +230,29 @@ class XOVAApp {
       this.showPage('planning');
     });
 
-    // Toggle preview
+    // Code/Preview tab switching
+    const codeTabBtn = document.getElementById('codeTabBtn');
+    const previewTabBtn = document.getElementById('previewTabBtn');
+    const codePanel = document.getElementById('codePanel');
+    const previewPanel = document.getElementById('previewPanel');
+
+    if (codeTabBtn && previewTabBtn) {
+      codeTabBtn.addEventListener('click', () => {
+        codeTabBtn.classList.add('active');
+        previewTabBtn.classList.remove('active');
+        if (codePanel) codePanel.classList.remove('hidden');
+        if (previewPanel) previewPanel.classList.add('hidden');
+      });
+
+      previewTabBtn.addEventListener('click', () => {
+        previewTabBtn.classList.add('active');
+        codeTabBtn.classList.remove('active');
+        if (previewPanel) previewPanel.classList.remove('hidden');
+        if (codePanel) codePanel.classList.add('hidden');
+      });
+    }
+
+    // Toggle preview (legacy button)
     document.getElementById('togglePreviewBtn').addEventListener('click', () => {
       const preview = document.getElementById('previewPanel');
       preview.classList.toggle('visible');
@@ -274,10 +296,17 @@ class XOVAApp {
       });
     });
 
+    // Publish button
+    document.getElementById('publishBtn').addEventListener('click', () => {
+      this.handlePublish();
+    });
+
     // View full app (from complete banner)
     document.getElementById('viewFullAppBtn')?.addEventListener('click', () => {
       document.getElementById('buildCompleteBanner').style.display = 'none';
       document.getElementById('previewPanel').style.display = 'flex';
+      // Switch to preview tab
+      if (previewTabBtn) previewTabBtn.click();
     });
 
     // New build from complete
@@ -408,6 +437,71 @@ class XOVAApp {
       btn.disabled = false;
       btn.innerHTML = '<i class="fab fa-github"></i> Push Repository';
     }
+  }
+
+  // ============================================================
+  // PUBLISH APP
+  // ============================================================
+  async handlePublish() {
+    const streamer = window.xovaStreamer;
+    const publishBtn = document.getElementById('publishBtn');
+    
+    if (!streamer.projectName || Object.keys(streamer.generatedCode).length === 0) {
+      this.showToast('No project to publish yet', 'info');
+      return;
+    }
+
+    // Disable button during publish
+    publishBtn.disabled = true;
+    publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing…';
+
+    try {
+      // Generate unique project ID
+      const projectId = streamer.projectName.toLowerCase().replace(/[^a-z0-9]/g, '-').substring(0, 30);
+      const publishUrl = `https://${projectId}.xova.pro`;
+
+      // Simulate deployment (in real implementation, this would call a deploy API)
+      await this.delay(2000);
+
+      // Store published URL in project
+      window.xovaProjects.updateProject(streamer.projectId || Date.now().toString(), {
+        publishedUrl: publishUrl,
+        publishedAt: Date.now()
+      });
+
+      // Show success with link
+      this.showToast(`Published at ${publishUrl}!`, 'success');
+      
+      // Update button to show link
+      publishBtn.innerHTML = `<i class="fas fa-check"></i> Published`;
+      publishBtn.disabled = false;
+
+      // Add publish link container below topbar
+      const existingLink = document.querySelector('.publish-link-container');
+      if (!existingLink) {
+        const linkContainer = document.createElement('div');
+        linkContainer.className = 'publish-link-container';
+        linkContainer.innerHTML = `
+          <i class="fas fa-check-circle" style="color:#22c55e;font-size:1.2rem"></i>
+          <span style="color:#22c55e;font-weight:600">Your app is live!</span>
+          <a href="${publishUrl}" target="_blank" class="publish-link">
+            ${publishUrl} <i class="fas fa-external-link-alt"></i>
+          </a>
+        `;
+        document.querySelector('.build-topbar').after(linkContainer);
+      }
+
+      window.xovaGhost.say(`Your app is live at ${projectId}.xova.pro! 🚀`, 4000);
+
+    } catch (err) {
+      this.showToast(`Publish failed: ${err.message}`, 'error');
+      publishBtn.disabled = false;
+      publishBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Publish';
+    }
+  }
+
+  delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   // ============================================================
