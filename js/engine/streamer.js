@@ -36,6 +36,7 @@ class XOVAEngineStreamer {
   async startBuild(planData) {
     const { appName } = planData;
     this.projectName = appName;
+    this.projectId = Date.now().toString();
     this.isStreaming = true;
 
     // Generate all code from plan
@@ -313,6 +314,12 @@ class XOVAEngineStreamer {
     window.xovaGhost.onCelebrate();
     window.xovaGhost.say(`Build complete! ${this.files.length} files ready 🎉`, 4000);
 
+    // Enable publish button
+    const publishBtn = document.getElementById('publishBtn');
+    if (publishBtn) {
+      publishBtn.disabled = false;
+    }
+
     // Save to projects
     window.xovaProjects.saveProject({
       name: this.projectName,
@@ -321,7 +328,8 @@ class XOVAEngineStreamer {
       totalLines,
       totalSize: sizeKb,
       status: 'complete',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      projectId: this.projectId
     });
 
     // Final preview
